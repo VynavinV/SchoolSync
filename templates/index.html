@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harold M Brathwaite S.S.</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <style>
+        /* Show the desktop-only class by default */
+        .desktop-only {
+            display: inline;
+        }
+
+        /* Hide the desktop-only class on screens smaller than 768px */
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+        .scaled-image {
+            width: 2.5%; /* Scale image to 20% of its original width */
+            height: auto; /* Maintain aspect ratio */
+        }
+        
+
+    </style>
+        <script>
+            // Check if the screen width is less than or equal to 768px
+            if (window.innerWidth <= 768) {
+                window.location.href = "/mobile";
+            }
+        </script>
+</head>
+
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/schoolsync_logo.png') }}" alt="Description" class="scaled-image">
+
+        <div class="header-content">
+            <div class="logo">
+                <a href="#">Harold M Brathwaite S.S.</a>
+                    
+            </div>
+            <nav class="nav-links">
+                {% if user_role == 'admin' %}
+                <a href="/allClubs">Admin Panel</a>
+                <p class="desktop-only">|</p>
+                {% endif %}
+                <a href="/myclubs">My Clubs</a>
+                <p class="desktop-only">|</p>
+                <a href="/Events.html" class="events"><span>Events</span></a>
+                <p class="desktop-only">|</p>
+                
+                <a href="#" onclick="goToanncClub()">Announcements</a>
+                <p class="desktop-only">|</p>
+                <a href="/calendar">Calendar</a>
+                <p class="desktop-only">|</p>
+                <a href="/guidance">Student Services</a>
+                <p class="desktop-only">|</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+            </nav>
+            <div class="profile">
+                <img src="{{ user_pfp }}" alt="Profile Picture">
+            </div>
+            <div class="hamburger-menu" onclick="toggleMenu()">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>            
+        </div>
+    </header>
+    <div class="banner">
+        <img src="{{ url_for('static', filename='Images/hbss.jpg') }}" alt="Banner Image">
+        <div class="banner-text">
+            <h1>Harold M Brathwaite</h1>
+            <h1>Secondary School</h1>
+            <p>Dream. Believe. Succeed.</p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="main-content">
+            <div class="info">
+                <a href="/tech/Literature" class="literature"><span>Literature</span></a>
+                <a href="/tech/Tech" class="tech"><span>Tech</span></a>
+                <a href="/tech/Art" class="art"><span>Art</span></a>
+                <a href="/tech/Culture" class="culture"><span>Culture</span></a>
+                <a href="/tech/Sports" class="sports"><span>Sports</span></a>
+                <a href="/tech/Coy" class="coy-health"><span>COY/Help</span></a>
+                <a href="/tech/Business" class="business"><span>Business</span></a>
+                <a href="/tech/Community" class="community"><span>Community</span></a>
+                <a href="/tech/other" class="other"><span>Other</span></a>
+            </div>
+        </div>
+        
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Harold M Brathwaite S.S. All rights reserved.</p>
+            <p>Designed and developed by Vynavin Vinod, Akshat Goenka, and Madheswaran Kamal.</p>
+            <p><a href='mailto:1036928@pdsb.net,896601@pdsb.net,817768@pdsb.net,vinod.vynavin@gmail.com,saturnv24@gmail.com,akshatgoenka77@gmail.com, hbswitchboard@gmail.com'>Email Us</a></p>
+            <p><a href="https://www.peelschools.org/">Peel Site</a> | <a href="https://byod.peelschools.org/">BYOD</a></p>
+
+        </div>
+    </footer>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.hamburger-menu').classList.toggle('active');
+        }
+
+        function goToManageClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/manageClub/1';
+        }
+
+        function goToanncClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/club/1';
+        }
+    </script>
+</body>
+</html>

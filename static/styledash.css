@@ -1,0 +1,466 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    position: relative;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.news-container {
+    position: relative;
+    bottom: 550px;
+    width: 100%;
+    height: 600px; /* Increased height */
+    z-index: 2;
+}
+.news-container-ticker-container{
+    height: 200%;
+}
+
+.clock-container {
+    text-align: center;
+    position: relative;
+    bottom: 500px;
+}
+
+.Clock {
+    font-size: 50px;
+    text-align: center;
+    color: white;
+}
+#date-container {
+    padding: 20px;
+    background-color: black;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 50px; 
+    margin-top: 10px;
+    position: relative;
+    bottom: 525px;
+}
+#date {
+    color: white;
+}
+
+
+.holidays-container {
+    position: relative;
+    top: 218px;
+    left: 10px;
+    width: 300px;
+    background: rgb(0, 0, 0);
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.holidays-container h2 {
+    margin-top: 0;
+    color: #fff;
+}
+
+.holidays-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.holidays-container li {
+    margin: 5px 0;
+    color: #fff;
+}
+
+.ticker-container {
+    width: 100%;
+    background: rgb(0, 0, 0);
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.ticker-item {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.5s ease-in-out;
+    opacity: 0;
+    transform: translateY(100%);    
+}
+
+.ticker-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card {
+    width: 350px;
+    max-width: 470px;
+    height: 400px;
+    background: linear-gradient(135deg, #00feba, #5b548a);
+    color: #fff;
+    margin: 100px auto 0;
+    border-radius: 20px;
+    padding: 40px 35px;
+    text-align: center;
+    position: relative;
+    bottom: 700px;
+    right: 400px;
+}
+
+.search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search input {
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    color: #555;
+    padding: 10px 25px;
+    height: 60px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 18px;
+}
+
+.search button {
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    border-radius: 50%;
+    width: 20px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.search button img {
+    width: 16px;
+}
+
+.weather-icon {
+    width: 80px;
+    margin-top: 30px;
+    position: relative;
+    right: 400px;
+    bottom: 100px;
+    height: 0px;
+}
+
+.weather h1 {
+    font-size: 80px;
+    font-weight: 500;
+    position: relative;
+    bottom: 10px;
+}
+
+.weather h2 {
+    font-size: 80spx;
+    font-weight: 400;
+    margin-top: 30px;
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.col img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.humidity, .wind {
+    margin-top: -6px;
+}
+.details {
+    position: relative;
+    top: -20px; /* Adjust this value to move up the humidity and wind speed */
+}
+.forecast-container {
+    margin-top: 20px;
+}
+.forecast {
+    display: flex;
+    justify-content: space-between;
+}
+.forecast-day {
+    text-align: center;
+}
+
+.todo-container {
+    background-color: #474267;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 569px;
+    position: relative;
+    left: 763px;
+    bottom: 150px;
+}
+
+.todo-container h2 {
+    margin-top: 0;  
+    text-align: center;
+}
+
+.todo-input {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.todo-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.todo-input button {
+    padding: 10px;
+    margin-left: 10px;
+    border: none;
+    background-color: #5b548a;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.todo-input button:hover {
+    background-color: #474267;
+}
+
+#todo-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#todo-list li {
+    padding: 10px;
+    border-bottom: 1px solid #00feba;
+    display: flex;
+    align-items: center;
+}
+
+#todo-list li.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    background: darkred;
+}
+
+.complete-btn {
+    margin-right: 10px;
+}
+h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #ffffff;
+    position: relative;
+    
+}
+
+p {
+    font-size: 1.5em;
+    color: #ffffff;
+    bottom: 400px;
+    position: relative;
+    bottom: 1375px;
+}
+.date-container {
+    background-color: #000000;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#current-date {
+    font-size: 24px;
+    color: #ffffff;
+    text-align: center;
+}
+.wrapper{
+    width: 570px;
+    height: 400px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    position: relative;
+    bottom: 500 px;
+    right: 500px;
+  }
+  .wrapper header{
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
+  }
+  header .icons{
+    display: flex;
+  }
+  header .icons span{
+    height: 38px;
+    width: 38px;
+    margin: 0 1px;
+    cursor: pointer;
+    color: #878787;
+    text-align: center;
+    line-height: 38px;
+    font-size: 1.9rem;
+    user-select: none;
+    border-radius: 50%;
+  }
+  .icons span:last-child{
+    margin-right: -10px;
+  }
+  header .icons span:hover{
+    background: #f2f2f2;
+  }
+  header .current-date{
+    font-size: 1.45rem;
+    font-weight: 500;
+  }
+  .calendar{
+    padding: 20px;
+  }
+  .calendar ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+  }
+  .calendar .days{
+    margin-bottom: 20px;
+  }
+  .calendar li{
+    color: #333;
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+  }
+  .calendar .weeks li{
+    font-weight: 500;
+    cursor: default;
+  }
+  .calendar .days li{
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    margin-top: 30px;
+  }
+  .days li.inactive{
+    color: #aaa;
+  }
+  .days li.active{
+    color: #fff;
+  }
+  .days li::before{
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .days li.active::before{
+    background: #9B59B6;
+  }
+  .days li:not(.active):hover::before{
+    background: #f2f2f2;
+  }
+  .stock-widget {
+    width: 300px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    position: relative;
+    bottom: 1050px;
+    right: 780px;
+}
+.stock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+.stock:last-child {
+    border-bottom: none;
+}
+.stock-info {
+    display: flex;
+    align-items: center;
+}
+.stock-symbol {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.stock-change {
+    display: flex;
+    align-items: center;
+}
+.stock-change span {
+    margin-left: 5px;
+}
+.up {
+    color: green;
+}
+.down {
+    color: red;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesCreate.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+</head>
+<body>
+    <div class="background-dots"></div>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+    <div class="admin-container">
+        <div class="header-content">
+            <h1>Admin Panel</h1>
+            <p>Manage user roles and clubs.</p>
+        </div>
+
+        {% if success_message %}
+            <div class="success-message">
+                {{ success_message }}
+            </div>
+        {% endif %}
+
+        <!-- Section 1: Assign Role in Users Table -->
+        <div class="section">
+            <h2>Assign Admin Role in Users Table</h2>
+            <form class="admin-form" action="/AdminPanel" method="post">
+                <input type="hidden" name="update_user_role" value="true">
+                <input type="email" id="name" name="name" class="form-input" placeholder="User Email" required>
+                <button class="admin-button" type="submit">
+                    <span>Update User Role to Admin</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Section 1b: Revert Role to Student in Users Table -->
+        <div class="section">
+            <h2>Revert User Role to Student in Users Table</h2>
+            <form class="admin-form" action="/AdminPanel" method="post">
+                <input type="hidden" name="unupdate_user_role" value="true">
+                <input type="email" id="name" name="name" class="form-input" placeholder="User Email" required>
+                <button class="admin-button" type="submit">
+                    <span>Revert User Role to Student</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Section 2: Assign Role in Clublink Table -->
+        <div class="section">
+            <h2>Assign Role in Clublink Table</h2>
+            <a href="/allClubs">(View all clubs)</a>
+            <form class="admin-form" action="/AdminPanel" method="post">
+                <input type="hidden" name="update_clublink_role" value="true">
+                <input type="email" id="name" name="name" class="form-input" placeholder="User Email" required>
+
+                <label for="club">Select Club:</label>
+                <select id="club" name="club" class="form-input" required>
+                    <option value="">Select a club</option>
+                    {% for club in clubs %}
+                        <option value="{{ club.id }}">{{ club.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="role">Select Role:</label>
+                <select id="role" name="role" class="form-input" required>
+                    <option value="">Select a role</option>
+                    <option value="admin">Admin</option>
+                    <option value="member">Member</option>
+                    <option value="owner">Owner</option>
+
+                    
+                </select>
+
+                <button class="admin-button" type="submit">
+                    <span>Update Clublink Role</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.menu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

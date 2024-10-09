@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesCreate.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    
+    <style>
+    body {
+        background-image: url("{{ url_for('static', filename='images/Blizz.png') }}");
+        background-size: cover;
+        background-position: center;
+    }
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(99, 3, 255, 1), rgba(132, 84, 210, 0.849));
+        pointer-events: none; /* Ensure the overlay does not interfere with user interactions */
+    }
+    .login-container {
+        color: red;
+    }
+    .p{
+        color: grey;
+    }
+
+    </style>
+       
+</head>
+<body>
+    <div class = "overlay"></div>  
+    <!--<div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div> 
+    </div>-->
+    
+    
+    <div class="login-container">
+        <div class="header-content">
+            <h1>Error.</h1>
+            <p>Something went wrong. Please notify us and we'll fix it ASAP!</p>
+            <form class="login-form" action="/verifyLogin" method="post">
+                <a href="/">
+                <button class="homebutton" type="submit">
+                    <span>Login with Google</span>
+                </button>
+                <a>
+</body>
+</html>

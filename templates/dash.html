@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        header, footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        footer {
+            position: relative;
+            bottom: 0;
+            flex-direction: column; /* Stack footer content vertically */
+        }
+        .main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .club {
+            width: 60%;
+            height: 200px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+        .holidays {
+            width: 60%;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        .holidays div {
+            font-size: 1.2rem;
+        }
+        #weather {
+            display: flex;
+            align-items: center;
+        }
+        #weather img {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+        }
+        .upcoming-holidays {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .upcoming-holidays h3 {
+            margin: 0;
+            color: #fff;
+        }
+        .upcoming-holidays ul {
+            list-style-type: none; /* Removes bullet points */
+            padding: 0;
+        }
+        .upcoming-holidays li {
+            background-color: #444; /* Dark background for items */
+            border: 1px solid #ccc;
+            margin: 5px 0; /* Space between items */
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff; /* Text color */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div id="title">PDSA 😃</div>
+        <div id="time"></div>
+        <div id="weather">
+            <span id="weather-info">Loading weather...</span>
+            <img id="weather-icon" alt="Weather Icon" src="" style="display:none;">
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="club">Club Section</div>
+
+        <div class="holidays">
+            <div id="upcoming-holidays">Upcoming holidays</div>
+            <div id="holiday-date"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div>Footer content here</div>
+        <div id="current-date"></div>
+        <div class="upcoming-holidays">
+            <h3>Upcoming Holidays</h3>
+            <ul id="holiday-list"></ul>
+        </div>
+    </footer>
+
+    <script>
+        // Fetch and display the current time and date in 12-hour format with AM/PM
+        function updateTime() {
+            const timeDiv = document.getElementById('time');
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; // if hour is 0, set to 12 (midnight or noon)
+            
+            const formattedTime = `${hours}:${minutes} ${ampm}`;
+            timeDiv.innerText = formattedTime;
+        }
+        setInterval(updateTime, 1000);
+
+        // Fetch today's date for the footer
+        function updateDate() {
+            const dateDiv = document.getElementById('current-date');
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = today.toLocaleDateString(undefined, options);
+            dateDiv.innerText = formattedDate;
+        }
+        updateDate();
+
+        // Fetch weather using OpenWeatherMap API and Geolocation API
+        async function fetchWeather() {
+            const weatherInfoDiv = document.getElementById('weather-info');
+            const weatherIconImg = document.getElementById('weather-icon');
+
+            // Use the Geolocation API to get the user's location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    // Fetch weather data using OpenWeatherMap API
+                    const apiKey = '697f9b8afed2a6d55f0743ff8ac3feda';  // Replace with your OpenWeatherMap API key
+                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+                    
+                    try {
+                        const response = await fetch(apiUrl);
+                        const data = await response.json();
+
+                        const temperature = `${Math.round(data.main.temp)}°C`; // Round to nearest whole number
+                        const iconCode = data.weather[0].icon;
+                        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+                        weatherInfoDiv.innerText = temperature;
+
+                        // Set the weather icon
+                        weatherIconImg.src = iconUrl;
+                        weatherIconImg.style.display = 'inline-block';
+                    } catch (error) {
+                        weatherInfoDiv.innerText = 'Weather unavailable';
+                        weatherIconImg.style.display = 'none';
+                    }
+                });
+            } else {
+                weatherInfoDiv.innerText = 'Geolocation not supported';
+                weatherIconImg.style.display = 'none';
+            }
+        }
+
+        // Call the fetchWeather function once initially and then every 10 minutes
+        fetchWeather();
+        setInterval(fetchWeather, 300000);  // 600,000 ms = 10 minutes
+
+        // Static list of upcoming holidays
+        const holidays = [
+            { name: "New Year's Day", date: '2024-01-01' },
+            { name: "Easter", date: '2024-04-01' },
+            { name: "Labor Day", date: '2024-09-02' },
+            { name: "Christmas", date: '2024-12-25' }
+        ];
+
+        function updateHolidays() {
+            const holidayListDiv = document.getElementById('holiday-list');
+
+            const now = new Date();
+            const upcomingHolidays = holidays.filter(holiday => new Date(holiday.date) > now);
+
+            holidayListDiv.innerHTML = ''; // Clear the list
+
+            if (upcomingHolidays.length > 0) {
+                upcomingHolidays.forEach(holiday => {
+                    const li = document.createElement('li');
+                    li.innerText = `${holiday.name} - ${holiday.date}`;
+                    holidayListDiv.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.innerText = 'No upcoming holidays';
+                holidayListDiv.appendChild(li);
+            }
+        }
+        updateHolidays();
+    </script>
+
+</body>
+</html>

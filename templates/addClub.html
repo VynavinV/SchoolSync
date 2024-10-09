@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Club</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesMake.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <style>
+        .header {
+   position: fixed;
+   top: 0;
+   width: 100%;
+   background-color: #c79bd4;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+   z-index: 1000;
+}
+.logo a:hover {
+            transform: scale(1.15);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+    <div class="add-club-container">
+        <form action="/addClub" method="post" enctype="multipart/form-data" class="club-form">
+            <label for="name" class="form-label">Club Name:</label>
+            <input type="text" id="name" name="name" class="form-input" maxlength="20" required>
+            
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" name="description" class="form-textarea" maxlength="80" required></textarea>
+            
+            <label for="category" class="form-label">Category:</label>
+            <select id="category" name="category" class="form-select">
+                <option value="Tech">Tech</option>
+                <option value="Culture">Culture</option>
+                <option value="Sports">Sports</option>
+                <option value="Literature">Literature</option>
+                <option value="Art">Art</option>
+                <option value="Business">Business</option>
+                <option value="Community">Community</option>
+                <option value="Coy">COY</option>
+                <option value="other">Other</option>
+                <!-- Add other categories as needed -->
+            </select>
+            
+            <label for="image" class="form-label">Upload a fitting image:</label>
+            <input type="file" id="image" name="image" class="form-input" accept="image/*" required>
+            
+            <button type="submit" class="form-button">Add Club</button>
+        </form>
+    </div>
+</body>
+</html>

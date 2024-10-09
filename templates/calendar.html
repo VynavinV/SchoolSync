@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events Calendar</title>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <script>
+        if (window.innerWidth <= 768) {
+            window.location.href = "/calendarMob";
+        }
+    </script>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+
+        header {
+            background: #b974cd;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo a {
+            color: #fff;
+            font-size: 24px;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 10px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #a351c0;
+            border-radius: 5px;
+        }
+        .profile img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 15px;
+        }
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+        }
+        .hamburger-menu .line {
+            background: #fff;
+            height: 3px;
+            width: 25px;
+            margin: 5px 0;
+        }
+        .banner {
+            background: #ce86e9;
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .banner img {
+            width: 100%;
+            height: auto;
+        }
+        .banner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .banner-text h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        .banner-text p {
+            font-size: 18px;
+        }
+        .main-content {
+            padding: 80px 20px;
+            display: flex;
+            justify-content: center;
+            flex: 1;
+        }
+        footer {
+            background: #a2a2a2;
+            color: #616161;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+            width: 100%;
+        }
+        footer a {
+            color: rgb(129, 129, 129);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        #calendar {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fafaff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* FullCalendar Styles */
+        .fc-toolbar {
+            background-color: #b974cd;
+            color: white;
+            padding: 10px;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+        }
+
+        .fc-button {
+            background-color: #7f0e81;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .fc-button:hover {
+            background-color: #5e0a61;
+        }
+
+        .fc-button:disabled {
+            background-color: #c79bd4;
+            opacity: 0.6;
+        }
+
+        .fc-daygrid-event {
+            background-color: #7f0e81;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            color: white;
+        }
+
+        .fc-daygrid-event:hover {
+            box-shadow: 0 8px 25px #000000e6;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                background: #b677cd;
+                width: 200px;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .hamburger-menu {
+                display: block;
+            }
+            .profile {
+                display: none;
+            }
+            .fc-toolbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .fc-toolbar .fc-left, .fc-toolbar .fc-center, .fc-toolbar .fc-right {
+                width: 100%;
+            }
+            .fc-button {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <a href="/">Harold M Brathwaite S.S.</a>
+            </div>
+            <div class="hamburger-menu" onclick="toggleMenu()">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div id='calendar'></div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Harold M Brathwaite S.S. All rights reserved.</p>
+            <p>Designed and developed by Vynavin Vinod, Akshat Goenka, and Madheswaran Kamal.</p>
+            <p><a href='mailto:1036928@pdsb.net,896601@pdsb.net,817768@pdsb.net,vinod.vynavin@gmail.com,saturnv24@gmail.com,akshatgoenka77@gmail.com'>Email Us</a></p>
+            <p><a href="https://www.peelschools.org/">Peel Site</a> | <a href="https://byod.peelschools.org/">BYOD</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');   
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: '/get_events',
+                eventColor: '#7f0e81',  // Use the same color scheme as the calendar
+                eventTimeFormat: { // for event times in 12-hour format
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    meridiem: 'short'
+                },
+                eventClick: function(info) {
+                    // Redirect to the event details page using the event ID
+                    window.location.href = '/eventDetails/' + info.event.id;
+                }
+            });
+
+            calendar.render();
+        });
+
+
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.hamburger-menu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

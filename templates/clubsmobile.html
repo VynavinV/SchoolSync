@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harold M Brathwaite S.S.</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesclubsmobile.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Show the desktop-only class by default */
+        .desktop-only {
+            display: inline;
+        }
+
+        /* Hide the desktop-only class on screens smaller than 768px */
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+        .scaled-image {
+            width: 2.5%; /* Scale image to 20% of its original width */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .main-content {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 1%;
+            padding: 0px;
+        }
+        
+        .header1 {
+            display: flex;
+            justify-content: space-between;
+            /* align items in the header go to the left*/
+
+        }
+
+        .profile-container {
+            display: flex;
+            align-items:flex-start;
+            flex-direction: row;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            float: left;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #72218b;
+            margin-right: 10px;
+        }
+
+        .welcome {
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .welcome p:first-child {
+            font-weight: 600;
+            color: #000000;
+            font-size: 25px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #72218b;
+            margin-right: 9px;
+        }
+
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -80%; /* Hidden by default */
+            width: 60%; 
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-links.active {
+            right: 0; /* Slide in */
+            background: linear-gradient(180deg, rgb(191, 168, 255) 0.2%, rgb(255, 255, 255) 50%);
+        }
+
+        .nav-links a {
+            margin: 8px 0;
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 80%;
+            text-align: left;
+            background-color: #ededed13;
+            padding: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #e9e9e9;
+        }
+
+        .menu-icon.active {
+            color: #fff;
+
+        }
+            /* Search Bar */
+    .search-bar {
+        padding: 10px;
+        width: 100%;
+        margin-right: 5%;
+        position: relative; /* Add relative positioning */
+    }
+
+    .search-bar input {
+        width: 95%; /* Adjust width to 100% */
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 9px;
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+
+    .search-bar button {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #72218b;
+        color: white;   
+        cursor: pointer;
+        position: absolute; /* Position absolutely within the container */
+        right: 30px; /* Adjust position to fit inside the input */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Center vertically */
+    }
+
+    </style>
+        <script>
+            function goToManageClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/manageClub/1';
+        }
+
+        function goToanncClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/club/1';
+        }
+    </script>
+</head>
+
+<body>
+    <div class="main-content">
+        
+        <div class="header1">
+            <div class="profile">
+                <img src="{{ user_pfp }}" alt="Profile Picture">
+                <div class="welcome">
+                    <p>Explore Clubs 👋</p>
+                </div>
+            </div>
+
+            <div class="menu">
+                <span class="menu-icon">☰</span>
+            </div>
+
+            <div class="nav-links">
+                <a href="/"><i class="fa fa-fw fa-home"></i>  Home</a>
+                <a href="/myclubs"><i class="fas fa-users"></i>  My Clubs</a>
+                <a href="/Events.html" class="events"><i class="fas fa-globe"></i><span>  Events</span></a>
+                <a href="#" onclick="goToanncClub()"><i class="fas fa-bullhorn"></i>  Announcements</a>
+                <a href="/calendar"><i class="fas fa-calendar"></i>  Calendar</a>
+                <a href="/Clubsmobile.html"><i class="fas fa-search"></i>  View Clubs</a>
+                <a href="/guidance"><i class="fas fa-school"></i>  Student Services</a>
+                <a href="{{ url_for('logout') }}" class="logout-button"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+            </div>
+        </div>
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <form onsubmit="return redirectToSearch()">
+                <input type="text" id="search-input" placeholder="Search for clubs...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <script>
+            function redirectToSearch() {
+                var query = document.getElementById('search-input').value;
+                if (query) {
+                    window.location.href = '/Search/' + encodeURIComponent(query);
+                }
+                return false; // Prevent form submission
+            }
+        </script>
+        <div class="main-content">
+            <div class="info">
+                <a href="/tech/Literature" class="literature"><span>Literature</span></a>
+                <a href="/tech/Tech" class="tech"><span>Tech</span></a>
+                <a href="/tech/Art" class="art"><span>Art</span></a>
+                <a href="/tech/Culture" class="culture"><span>Culture</span></a>
+                <a href="/tech/Sports" class="sports"><span>Sports</span></a>
+                <a href="/tech/Coy" class="coy-health"><span>COY/Help</span></a>
+                <a href="/tech/Business" class="business"><span>Business</span></a>
+                <a href="/tech/Community" class="community"><span>Community</span></a>
+                <a href="/tech/other" class="other"><span>Other</span></a>
+            </div>
+        </div>
+        
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Harold M Brathwaite S.S. All rights reserved.</p>
+            <p>Designed and developed by Vynavin Vinod, Akshat Goenka, and Madheswaran Kamal.</p>
+            <p><a href='mailto:1036928@pdsb.net,896601@pdsb.net,817768@pdsb.net,vinod.vynavin@gmail.com,saturnv24@gmail.com,akshatgoenka77@gmail.com, hbswitchboard@gmail.com'>Email Us</a></p>
+            <p><a href="#">Terms of service</a> | <a href="/dino">-</a></p>
+
+        </div>
+    </footer>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.hamburger-menu').classList.toggle('active');
+        }
+
+        function goToManageClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/manageClub/1';
+        }
+
+        function goToanncClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/club/1';
+        }
+    </script>
+        <script>
+            // Toggle the menu
+            document.querySelector('.menu-icon').addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.toggle('active');
+                document.querySelector('.menu-icon').classList.toggle('active');
+                console.log('Menu icon clicked');
+            });
+    
+            // Close the menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const navLinks = document.querySelector('.nav-links');
+                const menuIcon = document.querySelector('.menu-icon');
+    
+                if (!navLinks.contains(event.target) && !menuIcon.contains(event.target)) {
+                    navLinks.classList.remove('active');
+                    menuIcon.classList.remove('active');
+                    console.log('Clicked outside, menu closed');
+                }
+            });
+        </script>
+</body>
+</html>

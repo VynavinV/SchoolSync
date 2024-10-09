@@ -1,0 +1,273 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   font-family: 'Poppins', Arial, sans-serif;
+   background-color: #f0f0f5;
+   color: #333;
+   line-height: 1.6;
+   padding: 10px;
+}
+
+.container {
+   width: 100%;
+   max-width: 90%;
+   margin: 20px auto;
+   background: linear-gradient(to bottom, #cda5fb 0.2%, #ffffff 20%);
+   padding: 20px;
+   border-radius: 15px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 20px;
+   margin: 4%;
+}
+
+.profile-container {
+   display: flex;
+   align-items:flex-start;
+   flex-direction: row;
+}
+
+.profile {
+   display: flex;
+   align-items: center; /* Center align the items vertically */
+   flex-direction: row; /* Ensure the items are in a row */
+}
+
+.profile img {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   border: 2px solid #72218b;
+   margin-right: 10px; /* Adds space between PFP and welcome text */
+}
+
+.welcome {
+   font-size: 16px;
+   margin-left: 10px; /* Add some space between the profile picture and the welcome text */
+   align-items: flex-start;
+}
+
+.welcome p:first-child {
+   font-weight: 600;
+   color: #666666;
+   align-items: flex-start;
+}
+
+.menu {
+   display: flex;
+   align-items: center;
+}
+
+.menu-icon {
+   font-size: 24px;
+   cursor: pointer;
+   color: #72218b;
+}
+
+.search-bar {
+   margin-bottom: 20px;
+}
+
+.search-bar input {
+   width: 100%;
+   padding: 12px;
+   border: 1px solid #ccc;
+   border-radius: 20px;
+   font-size: 14px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   transition: box-shadow 0.3s ease;
+}
+
+.search-bar input:focus {
+   outline: none;
+   box-shadow: 0 0 6px rgba(218, 107, 255, 0.576);
+}
+
+.section-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 10px;
+   margin-top: 20px;
+   margin: 4%;
+}
+
+.section-header h2 {
+   font-size: 20px;
+   color: #333;
+}
+
+.section-header a {
+   font-size: 14px;
+   color: #72218b;
+   text-decoration: underline;
+}
+
+.event-card, .club-card {
+   background-color: #f9f9f9;
+   border-radius: 20px;
+   overflow: hidden;
+   margin-bottom: 10px;
+   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+   width: 90%;
+}
+
+.event-card img, .club-card img {
+   width: 100%;
+   height: auto;
+}
+
+.event-info {
+   padding: 15px;
+   text-align: center;
+   justify-content: space-between;
+}
+
+.event-info h3 {
+   font-size: 18px;
+   margin-bottom: 12px;
+   color: #007bff;
+}
+
+.event-info button {
+   padding: 10px 20px;
+   background-color: #d176ce;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 14px;
+   transition: background-color 0.3s ease;
+}
+
+.event-info button:hover {
+   background-color: #7c0074;
+}
+
+.club-card p {
+   padding: 10px;
+   text-align: left;
+   font-size: 25px;
+   color: #333;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+   .container {
+      max-width: 95%;
+      padding: 10px;
+   }
+
+   .welcome {
+      margin-left: 5px;
+   }
+
+   .event-info h3 {
+      font-size: 16px;
+   }
+
+   .event-info button {
+      padding: 8px 15px;
+      font-size: 12px;
+   }
+}
+
+@media (max-width: 500px) {
+   .profile img {
+      width: 40px;
+      height: 40px;
+   }
+
+   .event-info h3 {
+      font-size: 14px;
+   }
+
+   .event-info button {
+      padding: 6px 12px;
+      font-size: 12px;
+   }
+
+   .header {
+      flex-direction: row;
+      justify-content: space-between; /* Ensures PFP and text stay on the left, and menu on the right */
+   }
+}
+
+
+/* Swiper styles */
+.swiper-container {
+   width: 100%;
+   height: 100%;
+}
+
+.swiper-slide {
+   display: flex;
+   justify-content: center;
+}
+
+/* Adjust the event-card for the carousel */
+.event-card {
+   width: 90%; /* Adjust card size to fit inside swiper-slide */
+}
+.event-card {
+   position: relative;
+   width: 90%; /* Adjust card size to fit inside swiper-slide */
+   border-radius: 20px;
+   overflow: hidden;
+   flex-direction: row;
+   justify-content: space-between; /* Ensures PFP and text stay on the left, and menu on the right */
+
+}
+
+.event-card img {
+   width: 100%;
+   height: 100%;
+   filter: brightness(75%) blur(1px); /* Darkens the image */
+   border-radius: 20px;
+}
+.event-info {
+   position: absolute;
+   bottom: 20px; /* Moves the content closer to the bottom, but not all the way */
+   left: 20px; /* Aligns the content towards the left */
+   display: flex;
+   align-items: center;
+   width: calc(100% - 40px); /* Accounts for padding on the left and right */
+   color: white;
+}
+
+.event-info h3 {
+   font-size: 18px;
+   margin: 0;
+   color: white;
+   flex: 1; /* Allows the text to shrink if necessary */
+   overflow: hidden; /* Hides overflow text */
+   text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
+   white-space: nowrap; /* Prevents text from wrapping to the next line */
+}
+
+.event-info button {
+   padding: 10px 20px;
+   background-color: #72218b;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 14px;
+   margin-left: 10px; /* Adds space between the name and button */
+   white-space: nowrap; /* Ensures the button text stays on one line */
+   transition: background-color 0.3s ease;
+}
+
+.event-info button:hover {
+   background-color: #511862;
+}
+

@@ -1,0 +1,517 @@
+body {
+   font-family: Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   background-color: #d9d9d9;
+   color: #333;
+   overflow-x: hidden;
+}
+
+.header {
+   position: fixed;
+   top: 0;
+   width: 100%;
+   background-color: #b974cd;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+   z-index: 1000;
+}
+.logo a {
+   font-size: 2em;
+   color: white;
+   text-decoration: none;
+   margin: 3px;
+}
+.menu {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+}
+
+.nav-links {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   width: 50%;
+}
+
+.nav-links a {
+   color: #ffffff;
+   text-decoration: none;
+   margin: 0 10px;
+   font-size: larger;
+}
+/*nav-links a hover*/
+.nav-links a:hover {
+   transform: scale(1.15);
+}
+
+
+.hamburger-menu {
+   display: none;
+   flex-direction: column;
+   cursor: pointer;
+}
+
+.line {
+   width: 25px;
+   height: 3px;
+   background-color: #fff;
+   margin: 5px 0;
+   transition: transform 0.4s ease;
+}
+.menu-club
+.hamburger-menu.active .line:nth-child(1) {
+   transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-menu.active .line:nth-child(2) {
+   opacity: 0;
+}
+
+.hamburger-menu.active .line:nth-child(3) {
+   transform: translateY(-8px) rotate(-45deg);
+}
+
+.logo a {
+   font-size: 2em;
+   color: white;
+   text-decoration: none;
+   margin: 3px;
+}
+
+.categories {
+   display: grid;
+   gap: 20px;
+   width: 100%;
+   padding: 20px;
+   margin-top: 30px;
+}
+.club-card { 
+   background-color: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+   border-radius: 10px;
+   overflow: hidden;
+   margin: 10px auto; /* Center cards horizontally and add spacing */
+   max-width: 90%; /* Scale card width relative to the viewport */
+   width: 100%; /* Ensure card takes full width available */
+   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+   text-decoration: none;
+   color: #333;
+}
+
+.club-card img {
+   width: 100%;
+   height: auto;
+   object-fit: cover;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+}
+
+@media (min-width: 768px) {
+   .categories {
+       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust grid for larger screens */
+   }
+}
+
+@media (max-width: 768px) {
+   .categories {
+       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust grid for medium screens */
+       padding: 10px;
+   }
+}
+
+@media (max-width: 480px) {
+   .categories {
+       grid-template-columns: 1fr; /* Single column for small screens */
+       padding: 5px;
+   }
+
+   .club-card {
+       margin: 10px auto; /* Center cards horizontally and add spacing */
+   }
+}
+
+
+.club-card:hover {
+   transform: scale(1.05) rotate(2deg); /* Slightly scale and rotate the card */
+   box-shadow: 0 16px 32px rgba(207, 143, 227, 0.8); /* Enhanced shadow on hover */
+}
+
+.club-info {
+   padding: 20px;
+   flex-grow: 1;
+   text-decoration: none; /* Remove underline */
+   color: #333;
+}
+
+.club-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.club-header h2 {
+    margin: 0;
+    font-size: 100px;
+    flex-grow: 1;  /* Take available space */
+    max-width: calc(100% - 50px); /* Adjust based on the space available for the delete button */
+    overflow-wrap: break-word; /* Break long words to fit within the width */
+    word-wrap: break-word; /* Fallback for older browsers */
+}
+
+.club-info p {
+   font-size: 0.9em;
+   word-wrap: break-word;
+   text-decoration: none; /* Remove underline */
+   color: #333;
+}
+
+a {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card .club-info {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card .club-info h2 {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card .club-info p {
+   text-decoration: none; /* Ensure no underline */
+}
+
+
+.club-card button {
+   background-color: #c79bd4;
+   border: none;
+   padding: 10px 20px;
+   border-radius: 5px;
+   color: white;
+   cursor: pointer;
+   transition: background-color 0.3s ease; /* Smooth transition for button background color */
+   margin-bottom: 20px;
+
+} 
+
+.club-card button:hover {
+   background-color: #a151b1;
+}
+
+.club-card img {
+   width: 100%;
+   height: auto;
+   object-fit: cover;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+}
+
+.flash-messages {
+   margin: 1rem;
+}
+
+.flashes {
+   list-style-type: none;
+   padding: 0;
+}
+
+.flashes li {
+   background-color: #f8d7da; /* Red background for error messages */
+   color: #721c24; /* Dark red text color */
+   border: 1px solid #f5c6cb;
+   padding: 0.75rem 1.25rem;
+   margin-bottom: 0.75rem;
+   border-radius: 0.25rem;
+}
+
+.flashes li.success {
+   background-color: #d4edda; /* Green background for success messages */
+   color: #155724; /* Dark green text color */
+   border: 1px solid #c3e6cb;
+}
+
+/* Event Card Styles */
+.event-card {
+   background-color: white;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   margin: 20px;
+   overflow: hidden;
+   transition: box-shadow 0.3s ease;
+   text-align: center; /* Center-align text for a uniform look */
+}
+
+.event-card img {
+   width: 100%;
+   height: auto;
+   object-fit: cover;
+}
+
+.event-card .event-info {
+   padding: 20px;
+}
+
+.event-card h2 {
+   font-size: 1.5em;
+   margin: 0;
+   color: #333;
+}
+
+.event-card p {
+   margin: 10px 0;
+   color: #666;
+}
+
+.event-card button {
+   padding: 10px 20px;
+   background-color: #c79bd4;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   margin-top: 10px;
+}
+
+.event-card button:hover {
+   background-color: #7f0e81;
+}
+
+
+.delete-button {
+   background-color: red; /* Red background color */
+   border: none;
+   border-radius: 4px;
+   color: white;
+   padding: 10px 20px;
+   cursor: pointer;
+   font-size: 16px;
+   display: inline-block; /* Inline block for correct alignment */
+   text-align: center; /* Center text */
+   margin-left: 10px; /* Space from other elements */
+}
+
+.delete-button:hover {
+   background-color: darkred; /* Darker red on hover */
+}
+.club-card {
+   background-color: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+   border-radius: 10px;
+   overflow: hidden;
+   margin: 10px auto; /* Center cards horizontally and add spacing */
+   max-width: 90%; /* Scale card width relative to the viewport */
+   width: 100%; /* Ensure card takes full width available */
+   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+   text-decoration: none;
+   color: #333;
+}
+
+.club-card img {
+   width: 100%;
+   height: auto;
+   object-fit: cover;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+}
+
+.club-header h2 {
+    margin: 0;
+    font-size: 24px; /* Default font size */
+    line-height: 1.2;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Single line by default */
+}
+
+/* Font size adjustment for longer titles */
+.club-header h2.small {
+    font-size: 20px; /* Smaller font size for long titles */
+    white-space: normal; /* Allow wrapping */
+}
+
+.club-info p {
+    margin: 10px 0;
+    color: #666;
+    font-size: 14px; /* Default font size */
+    line-height: 1.5;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Single line by default */
+}
+
+/* Font size adjustment for longer descriptions */
+.club-info p.small {
+    font-size: 12px; /* Smaller font size for long descriptions */
+    white-space: normal; /* Allow wrapping */
+}
+
+.club-card:hover {
+   transform: scale(1.05) rotate(2deg); /* Slightly scale and rotate the card */
+   box-shadow: 0 16px 32px rgba(207, 143, 227, 0.8); /* Enhanced shadow on hover */
+}
+
+.club-info {
+   padding: 20px;
+   flex-grow: 1;
+   text-decoration: none; /* Remove underline */
+   color: #333;
+}
+
+.club-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.club-info p {
+   font-size: 0.9em;
+   word-wrap: break-word;
+   text-decoration: none; /* Remove underline */
+   color: #333;
+}
+
+a {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card .club-info {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card .club-info h2 {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card .club-info p {
+   text-decoration: none; /* Ensure no underline */
+}
+
+.club-card button {
+   background-color: #c79bd4;
+   border: none;
+   padding: 10px 20px;
+   border-radius: 5px;
+   color: white;
+   cursor: pointer;
+   transition: background-color 0.3s ease; /* Smooth transition for button background color */
+}
+
+.club-card button:hover {
+   background-color: #a151b1;
+}
+
+.flash-messages {
+   margin: 1rem;
+}
+
+.flashes {
+   list-style-type: none;
+   padding: 0;
+}
+
+.flashes li {
+   background-color: #f8d7da; /* Red background for error messages */
+   color: #721c24; /* Dark red text color */
+   border: 1px solid #f5c6cb;
+   padding: 0.75rem 1.25rem;
+   margin-bottom: 0.75rem;
+   border-radius: 0.25rem;
+}
+
+.flashes li.success {
+   background-color: #d4edda; /* Green background for success messages */
+   color: #155724; /* Dark green text color */
+   border: 1px solid #c3e6cb;
+}
+
+
+/* Event Card Styles */
+.event-card {
+   background-color: white;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   margin: 20px;
+   overflow: hidden;
+   transition: box-shadow 0.3s ease;
+   text-align: center; /* Center-align text for a uniform look */
+}
+
+.event-card img {
+   width: 100%;
+   height: auto;
+   object-fit: cover;
+   border-bottom: 1px solid #ddd;
+}
+
+.event-card .event-info {
+   padding: 20px;
+}
+
+.event-card h2 {
+   font-size: 1.5em;
+   margin: 0;
+   color: #333;
+}
+
+.event-card p {
+   margin: 10px 0;
+   color: #666;
+}
+
+.event-card button {
+   padding: 10px 20px;
+   background-color: #c79bd4;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   margin-top: 10px;
+}
+
+.event-card button:hover {
+   background-color: #7f0e81;
+}
+
+/* Responsive Styles for Event Card */
+@media (max-width: 768px) {
+   .event-card {
+       margin: 10px;
+   }
+
+   .event-card h2 {
+       font-size: 1.2em;
+   }
+}
+
+.delete-button {
+   background-color: red; /* Red background color */
+   border: none;
+   border-radius: 4px;
+   color: white;
+   padding: 10px 20px;
+   cursor: pointer;
+   font-size: 16px;
+   display: inline-block; /* Inline block for correct alignment */
+   text-align: center; /* Center text */
+   margin-left: 10px; /* Space from other elements */
+}
+
+.delete-button:hover {
+   background-color: darkred; /* Darker red on hover */
+}
+

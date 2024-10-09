@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Clubs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <style>
+        /* General Body and Header Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #c79bd4; /* Light purple */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo a {
+            color: white;
+            font-size: 1.5em;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .hamburger-menu {
+            display: none; /* Initially hidden; display it with media queries if needed */
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hamburger-menu .line {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide nav links on small screens */
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+        }
+
+        .banner {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .banner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .banner-text h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .banner-text p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff; /* White background for the table */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px; /* Adds rounded corners */
+            overflow: hidden; /* Ensures rounded corners are visible */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #c79bd4; /* Light purple for table headers */
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Alternating row colors */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light grey */
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff; /* White */
+        }
+
+        tbody tr:hover {
+            background-color: #e0e0e0; /* Slightly darker grey on hover */
+        }
+
+        /* Add additional styling for other elements as needed */
+        .add-club-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background-color: #c79bd4; /* Light purple */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        footer ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* New styles for the form */
+        .club-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .club-form .form-label {
+            font-weight: bold;
+        }
+
+        .club-form .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .club-form .form-group input[type="text"],
+        .club-form .form-group textarea,
+        .club-form .form-group select,
+        .club-form .form-group input[type="file"] {
+            width: auto;
+            flex-grow: 1;
+        }
+
+        .club-form button {
+            align-self: center;
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .club-form button:hover {
+            background-color: #b08bb9;
+        }
+
+        @media (max-width: 768px) {
+            .club-form {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .club-form .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .club-form .form-group input[type="text"],
+            .club-form .form-group textarea,
+            .club-form .form-group select,
+            .club-form .form-group input[type="file"] {
+                width: 100%;
+            }
+        }
+        .pagination {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            padding: 10px 15px;
+            background-color: #f4f4f4;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #c79bd4;
+        }
+
+        .pagination a.active {
+            background-color: #c79bd4;
+            color: #fff;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+                .view-select {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .view-select select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #c79bd4;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-container form {
+            display: flex;
+            width: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            box-sizing: border-box;
+        }
+
+        .search-container button {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: #b08bb9;
+        }
+
+        @media (max-width: 768px) {
+            .search-container form {
+                flex-direction: column;
+                width: 80%;
+            }
+
+            .search-container input[type="text"],
+            .search-container button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .search-container button {
+                margin-bottom: 0;
+            }
+        }
+        a {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+
+
+        
+    </style>
+    <script>
+        function confirmDeletion() {
+            // Display a confirmation dialog before deleting a club, make sure the club name is included in the dialog
+            return confirm("Are you sure you want to delete this club? (This action cannot be undone)");
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </header>
+    <div class="main-content">
+        <!-- Search Form -->
+        <!-- Search and Filter Form -->
+        <div class="search-container">
+            <form action="/allClubs" method="get">
+                <input type="hidden" name="view-type" value="{{ view_type }}">
+                
+                <!-- Search Input -->
+                <input type="text" name="search" placeholder="Search by name or email" value="{{ search_query }}">
+                
+                <!-- Category Dropdown -->
+                <select name="category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+                
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+
+        
+        <!-- Dropdown to choose between All Clubs and All Members -->
+        <div class="view-select">
+            <form action="/allClubs" method="get">
+                <label for="view-type">View:</label>
+                <select id="view-type" name="view-type" onchange="this.form.submit()">
+                    <option value="clubs" {% if view_type == 'clubs' %}selected{% endif %}>All Clubs</option>
+                    <option value="members" {% if view_type == 'members' %}selected{% endif %}>All Members</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="add-club-container">
+            {% if view_type == 'clubs' %}
+            <h1>All Clubs</h1>
+            <!-- Button that redirects to /addclub -->
+            <a href="/addClub" class="button">Add Club</a>
+            {% if clubs %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Created By</th>
+                            <th>Actions</th> <!-- New column for actions -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for club in clubs %}
+                            {% if club['name'] != 'Morning announcements' %}
+                                <tr>
+                                    <td>
+                                        <a href="/club/{{ club['id'] }}" class="club-link" style="all: unset; color: rgb(0, 0, 163); text-decoration: underline;">{{ club['name'] }}</a>
+                                    </td>
+                                    <td>{{ club['category'] }}</td>
+                                    <td>{{ club['description'] }}</td>
+                                    <td>{{ club['created_by'] }}</td>
+                                    <td>
+                                        <!-- Edit Button -->
+                                        <a href="/editClub/{{ club['id'] }}" class="button">Edit</a>
+                                        <!-- Delete Button Form -->
+                                        <form action="{{ url_for('delete_club1') }}" method="post" style="display:inline;" onsubmit="return confirmDeletion();">
+                                            <input type="hidden" name="club_id" value="{{ club['id'] }}">
+                                            <button type="submit" class="delete-button">Delete</button>
+                                        </form>
+                                    </td>                        
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>                    
+                </table>
+            {% else %}
+                <p>No clubs available.</p>
+            {% endif %}
+        {% elif view_type == 'members' %}
+            <h1>All Members</h1>
+            <a href="/AdminPanel" class="button">Manage Roles</a>
+            {% if members %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                            <tr>
+                                <td>{{ member['user_name'] }}</td>
+                                <td>{{ member['user_email'] }}</td>
+                                <td>{{ member['user_role'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No members available.</p>
+            {% endif %}
+        {% endif %}
+        
+        </div>
+
+        <!-- Pagination controls -->
+        <ul class="pagination">
+            {% if page > 1 %}
+                <li><a href="?view-type={{ view_type }}&search={{ search_query }}&page={{ page-1 }}">Previous</a></li>
+            {% endif %}
+            {% for i in range(1, total_pages+1) %}
+            {% endfor %}
+            {% if page < total_pages %}
+                <li><a href="?view-type={{ view_type }}&search={{ search_query }}&page={{ page+1 }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <footer>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </footer>
+</body>
+</html>

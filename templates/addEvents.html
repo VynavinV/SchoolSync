@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Event</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesMake.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+    <style>
+        .header {
+   position: fixed;
+   top: 0;
+   width: 100%;
+   background-color: #b974cd;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+   z-index: 1000;
+}
+.logo a:hover {
+            transform: scale(1.15);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+    <div class="add-club-container">
+        <form action="/addEvents.html" method="post" enctype="multipart/form-data" class="club-form">
+            <label for="name" class="form-label">Event Name:</label>
+            <input type="text" id="name" name="name" class="form-input" required maxlength="24">
+
+            <label for="location" class="form-label">Location:</label>
+            <input type="text" id="event-location" name="event_location" class="form-input" required maxlength="24">
+
+            
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" name="description" class="form-textarea" maxlength="80" required></textarea>
+
+            
+            <label for="image" class="form-label">Upload Image:</label>
+            <input type="file" id="image" name="image" class="form-input" accept="image/*" required>
+            
+            <!-- New Date and Time Fields -->
+            <label for="event-date" class="form-label">Event Date:</label>
+            <input type="date" id="event-date" name="event_date" class="form-input" required>
+            
+            <label for="event-time" class="form-label">Event Time:</label>
+            <input type="time" id="event-time" name="event_time" class="form-input" required>
+            
+
+            
+            <button type="submit" class="form-button">Add Event</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesevents.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="date"],
+        .form-container input[type="time"],
+        .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #a675b2;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #c79bd4;
+        }
+
+        .back-link:hover {
+            color: #a675b2;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .Cancel {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            text-decoration: none; /* Removes underline from link */
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <a href="/Events.html" class="back-link">Back to Events</a>
+        <h2>Edit Event</h2>
+        <form action="/editEvent/{{ event['id'] }}" method="POST">
+            <label for="name">Event Name:</label>
+            <input type="text" id="name" name="name" value="{{ event['name'] }}" required><br>
+
+            <label for="location" class="form-label">Location:</label>
+            <input type="text" id="event-location" name="event_location" class="form-input"  value=" {{event['event_location']}}" maxlength="24">
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required>{{ event['description'] }}</textarea><br>
+
+            <label for="event_date">Event Date:</label>
+            <input type="date" id="event_date" name="event_date" value="{{ event['event_date'] }}" required><br>
+
+            <label for="event_time">Event Time:</label>
+            <input type="time" id="event_time" name="event_time" value="{{ event['event_time'] }}" required><br>
+
+            <button type="submit">Update Event</button>
+            <a class="Cancel" href="/Events.html" >Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

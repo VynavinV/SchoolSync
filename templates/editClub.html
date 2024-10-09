@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Club</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesMake.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+    <style>
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #c79bd4;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .edit-club-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .Cancel {
+            padding: 10px;
+            background-color: #b974cd;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            display: block; /* Ensures the button is treated as a block element for proper centering */
+            margin-top: 20px; /* Adjust the top margin as needed */
+            text-decoration: none; /* Removes underline from link */
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+    <div class="edit-club-container">
+        <form action="/editClub/{{ club.id }}" method="post" enctype="multipart/form-data" class="club-form">
+
+
+            <label for="name" class="form-label">Club Name:</label>
+            <input type="text" id="name" name="name" class="form-input" value="{{ club.name }}" maxlength="12" required>
+
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" name="description" class="form-textarea" maxlength="80" required>{{ club.description }}</textarea>
+
+            <label for="category" class="form-label">Category:</label>
+            <select id="category" name="category" class="form-select">
+                <option value="Tech" {% if club.category == "Tech" %}selected{% endif %}>Tech</option>
+                <option value="Culture" {% if club.category == "Culture" %}selected{% endif %}>Culture</option>
+                <option value="Sports" {% if club.category == "Sports" %}selected{% endif %}>Sports</option>
+                <option value="Literature" {% if club.category == "Literature" %}selected{% endif %}>Literature</option>
+                <option value="Art" {% if club.category == "Art" %}selected{% endif %}>Art</option>
+                <option value="Business" {% if club.category == "Business" %}selected{% endif %}>Business</option>
+                <option value="Community" {% if club.category == "Community" %}selected{% endif %}>Community</option>
+                <option value="Coy" {% if club.category == "COY" %}selected{% endif %}>COY</option>
+                <option value="other" {% if club.category == "other" %}selected{% endif %}>Other</option>
+            </select>
+
+            <label for="image" class="form-label">Upload New Image (optional):</label>
+            <input type="file" id="image" name="image" class="form-input" accept="image/*">
+
+            <button type="submit" class="form-button">Update Club</button>
+            <a class="Cancel" href="/allClubs" >Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

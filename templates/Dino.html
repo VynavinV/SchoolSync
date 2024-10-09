@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        h1 {
+            margin: 0;
+            padding: 20px;
+            font-size: 36px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background-color: rgba(128, 128, 128, 0.5); /* Translucent gray background */
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #infoBox {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 10px;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            text-align: center;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #clickButton {
+            position: absolute;
+            padding: 20px;
+            font-size: 24px;
+            color: #fff;
+            background-color: #c776cf;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            outline: none; /* Remove outline */
+            tabindex: -1; /* Prevent tab focus */
+        }
+
+        #clickButton:disabled {
+            background-color: #9E9E9E;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Made by: Vynavin, Madhes, and Akshat</h1>
+    <div id="infoBox">
+        <div id="scoreDisplay">Score: 0</div>
+        <div id="highScore">High Score: 0</div>
+        <div id="timer">Time: 10</div>
+        <a href="/">Home</a>
+    </div>
+    <div id="gameContainer">
+        <button id="clickButton">Click Me!</button>
+    </div>
+
+    <script>
+        let score = 0;
+        let highScore = '0';
+        let timeLeft = 10;
+        let timerInterval;
+        let gameStarted = false;
+
+        const clickButton = document.getElementById('clickButton');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const highScoreDisplay = document.getElementById('highScore');
+        const timerDisplay = document.getElementById('timer');
+        const gameContainer = document.getElementById('gameContainer');
+
+        async function fetchHighScore() {
+            const response = await fetch('/highscore');
+            const data = await response.json();
+            highScore = data.high_score;
+            highScoreDisplay.textContent = `High Score: ${highScore}`;
+        }
+
+        async function saveHighScore() {
+            const response = await fetch('/highscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ score: score })
+            });
+            const data = await response.json();
+            console.log(data.message);
+        }
+
+        clickButton.addEventListener('click', function(event) {
+            if (!gameStarted) {
+                startGame();
+            } else {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                moveButton();
+                createRipple(event);
+            }
+        });
+
+        function createRipple(event) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            const rect = clickButton.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+
+        }
+
+        function moveButton() {
+            const containerWidth = gameContainer.offsetWidth;
+            const containerHeight = gameContainer.offsetHeight;
+            const buttonWidth = clickButton.offsetWidth;
+            const buttonHeight = clickButton.offsetHeight;
+
+            const maxX = containerWidth - buttonWidth;
+            const maxY = containerHeight - buttonHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            clickButton.style.left = `${randomX}px`;
+            clickButton.style.top = `${randomY}px`;
+
+            clickButton.style.transform = 'scale(1.2)';
+            setTimeout(() => clickButton.style.transform = 'scale(1)', 100);
+        }
+
+        function startGame() {
+            if (gameStarted) return;
+
+            score = 0;
+            timeLeft = 10;
+            gameStarted = true;
+            clickButton.disabled = false;
+            clickButton.style.left = '0px';
+            clickButton.style.top = '0px';
+
+            scoreDisplay.textContent = `Score: ${score}`;
+            timerDisplay.textContent = `Time: ${timeLeft}`;
+            
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                timerDisplay.textContent = `Time: ${timeLeft}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    clickButton.disabled = true;
+                    gameStarted = false;
+
+                    if (score > highScore) {
+                        highScore = score;
+                        highScoreDisplay.textContent = `High Score: ${highScore}`;
+                        saveHighScore();
+                    }
+                }
+            }, 1000);
+
+            fetchHighScore();
+        }
+
+        // Fetch the initial high score when the page loads
+        fetchHighScore();
+    </script>
+</body>
+</html>

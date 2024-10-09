@@ -1,0 +1,174 @@
+body {
+   font-family: Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background-color: #d9d9d9;
+   color: #333;
+   overflow: hidden; /* Prevent scrollbars from appearing */
+}
+
+.background {
+    width: 7
+
+
+
+}
+
+
+
+
+.header {
+   position: fixed;
+   top: 0;
+   width: 100%;
+   background-color: #b974cd;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+   z-index: 1000;
+}
+
+.menu {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+}
+
+.menu a {
+   color: #333;
+   text-decoration: none;
+   margin: 0 10px;
+}
+
+.hamburger-menu {
+   display: none; /* Initially hidden on larger screens */
+   cursor: pointer;
+   flex-direction: column;
+}
+
+.line {
+   width: 25px;
+   height: 3px;
+   background-color: #fff;
+   margin: 5px 0;
+   transition: all 0.4s ease;
+}
+
+.nav-links {
+   display: flex;
+}
+
+.nav-links a {
+   margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+   .hamburger-menu {
+       display: flex;
+   }
+   
+   .nav-links {
+       display: none;
+       flex-direction: column;
+       background-color: #c79bd4;
+       position: absolute;
+       top: 50px;
+       left: 0;
+       width: 100%;
+       padding: 10px;
+   }
+
+   .nav-links a {
+       margin: 10px 0;
+       text-align: center;
+   }
+
+   .menu.active .nav-links {
+       display: flex;
+   }
+
+   .menu.active .line:nth-child(1) {
+       transform: rotate(45deg) translate(5px, 5px);
+   }
+
+   .menu.active .line:nth-child(2) {
+       opacity: 0;
+   }
+
+   .menu.active .line:nth-child(3) {
+       transform: rotate(-45deg) translate(5px, -5px);
+   }
+}
+.logo a:hover {
+    transform: scale(1.15);
+}
+
+
+.login-container {
+    background: linear-gradient(145deg, #f9f9f9, #e0e0e0);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative; /* For absolute positioning of background icon */
+}
+
+.header-content {
+    margin-bottom: 20px;
+}
+
+.header-content h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.header-content p {
+    font-size: 14px;
+    color: #666;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: #333;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+.logo a {
+    font-size: 2em;
+    color: white;
+    text-decoration: none;
+    margin: 3px;
+ }
+.login-button:hover {
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}

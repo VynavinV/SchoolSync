@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Services</title>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #fafaff;
+        }
+
+        header {
+            background: #b974cd;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo a {
+            color: #fff;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .main-content {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .row {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .row h2 {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            margin: 0;
+        }
+
+        .row p {
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .guidance-section {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .guidance-column {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            width: 250px;
+            margin: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .guidance-column h3 {
+            background-color: #c79bd4;
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            margin: 0 -20px 15px;
+        }
+
+        footer {
+            background: #7a7a7a;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .guidance-column {
+                width: 100%;
+            }
+        }
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <a href="/">Harold M Brathwaite S.S.</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <h1>Guidance and Vice-Principal Information</h1>
+        <!-- Make this only for guidance -->
+        <p class="intro-text">
+            Students are assigned to a Guidance Counselor and Vice-Principal based on their last name. 
+            Please refer to the columns below to find your designated counselor and Vice-Principal, who will assist you throughout the school year. 
+            If you have any questions or need support, contact the appropriate staff based on your last name's initial. 
+            <b>Join the classroom at p5jcixo.</b>
+        </p>
+
+        <!-- Guidance and VP Section -->
+        <div class="guidance-section">
+            <!-- Column 1 -->
+            <div class="guidance-column">
+                <h3>A - E</h3>
+                <p><strong>Guidance: Mr. Koene</strong></p>
+                <h3>F - K</h3>
+                <p><strong>Guidance: Ms. Chaudhery</strong></p>
+                <h3>L - R</h3>
+                <p><strong>Guidance: Ms. Hinds-Paul</strong></p>    
+                <h3>S - Z</h3>
+                <p><strong>Guidance: Mr. Parker</strong></p>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="guidance-column">
+                <h3>A-Ha</h3>
+                <p><strong>VP: Ms. Bhotoia</strong></p>
+                <h3>He-Pa</h3>
+                <p><strong>VP: Ms. Patel</strong></p>
+                <h3>Pe-Z</h3>
+                <p><strong>VP: Mr. Shaw</strong></p>
+            </div>
+            <div class="guidance-column">   
+                <h3>ELL / International</h3>
+                <p><strong>Guidance: Mrs. Rampersad</strong></p>
+            </div>
+            <!-- replace the text with text for VPs  -->
+
+        </div>
+    </div>
+</body>
+</html>

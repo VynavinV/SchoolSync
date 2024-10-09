@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Club</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+    <style>
+        /* Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #b974cd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px; /* Reduced padding */
+            height: 50px; /* Reduced height */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .logo a {
+            font-size: 2em;
+            color: white;
+            text-decoration: none;
+            margin: 3px;
+        }
+        a {
+            font-size: 2em;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            margin: 3px;
+        }
+        /*logo a hover*/
+        .logo a:hover {
+            transform: scale(1.15);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px; /* Increased max-width for larger layout */
+            margin: 80px auto 20px auto; /* Added margin-top to avoid overlap */
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .content-sections {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex: 1;
+        }
+
+        .announcements-container, .members-container {
+            flex: 1;
+        }
+
+        .announcements h2, .members-container h2 {
+            margin-top: 0;
+        }
+
+        /* Form Container Styles */
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="text"] {
+            width: calc(100% - 140px);
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #c79bd4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        .form-container button:hover {
+            background-color: #7f0e81;
+        }
+
+        /* Announcements Styles */
+        .announcements {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 20px;
+        }
+
+        .announcement-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            position: relative;
+        }
+
+        .announcement-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .announcement-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .announcement-details h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .announcement-details p {
+            margin: 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Delete Button Styles */
+        .delete-form {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            margin: 0;
+        }
+
+        .delete-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.3s ease;
+        }
+
+        .delete-button svg {
+            fill: #858585;
+            width: 100%;
+            height: 100%;
+        }
+
+        .delete-button:hover svg {
+            opacity: 0.8;
+        }
+
+        /* Members Section Styles */
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .member-card {
+            display: flex;
+            align-items: flex-start;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            gap: 15px;
+        }
+
+        .member-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .member-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .member-details h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .member-details p {
+            margin: 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Action Button Styles */
+        .action-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .action-button svg {
+            width: 16px;
+            height: 16px;
+        }
+        .action-button-mem {
+            padding: 5px 20px;
+            background-color: #c79bd4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 20px; /* Add margin-bottom */
+            font-size: 20px;
+        }
+
+        form {
+            margin-top: 20px; /* Add margin-top to the form */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="content-sections">
+           <!-- Announcements Section -->
+<div class="box announcements-container">
+    <div class="form-container">
+        {% if club %}
+        <h2>Post on...</h2>
+        <h2>{{ club['name'] }}</h2> 
+        {% else %}
+        <h2>Club not found</h2>
+        {% endif %}
+        <!-- Updated the link to use the current club_id -->
+        <a href="{{ url_for('members', club_id=current_club_id) }}" class="action-button-mem">View Members</a>
+        <form method="POST">
+            <input type="text" name="announcement" placeholder="Enter announcement..." maxlength="500" required>
+            <button type="submit">Post</button>
+        </form>
+    
+    </div>
+    <h2>Announcements</h2>
+    <div class="announcements">
+        {% for announcement in announcements|reverse %}
+        <div class="announcement-card" id="announcement-{{ announcement.id }}">
+            <img src="{{ announcement.user_pfp }}" alt="Profile Picture">
+            <div class="announcement-details">
+                <div class="announcement-text" id="text-{{ announcement.id }}">
+                    <h3>{{ announcement.announcement }}</h3>
+                </div>
+                <div class="edit-text" id="edit-{{ announcement.id }}" style="display:none;">
+                    <form method="POST" class="edit-form">
+                        <input type="hidden" name="edit_announcement_id" value="{{ announcement.id }}">
+                        <textarea name="edited_announcement" placeholder="Edit announcement..." maxlength="500" required>{{ announcement.announcement }}</textarea>
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
+                <p>{{ announcement.created_at }} by {{ announcement.user_name }}</p>
+            </div>
+
+            <!-- Edit Button -->
+            <!--<button class="action-button" onclick="toggleEdit({{ announcement.id }})">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2 2 0 0 1 2.828 0l1.172 1.172a2 2 0 0 1 0 2.828l-9 9-3.5-3.5 9-9z" />
+                    <path d="M4 20v-3.5l11-11 3.5 3.5-11 11H4z" />
+                </svg>
+            </button>-->
+
+            <!-- Delete Button -->
+            <form method="POST" class="delete-form">
+                <input type="hidden" name="delete_announcement_id" value="{{ announcement.id }}">
+                <button type="submit" class="action-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 6l3 12c.1.6.6 1 1.2 1h8.6c.6 0 1.1-.4 1.2-1l3-12H3zm7 2h2v8h-2V8zm4 0h2v8h-2V8zm-8 0h2v8H6V8zM5 4h14v2H5V4zm5-2h4v2h-4V2z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>

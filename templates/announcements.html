@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Club</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+
+
+    <style>
+        /* Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .logo a {
+            font-size: 2em;
+            color: white;
+            text-decoration: none;
+            margin: 3px;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #b974cd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px; /* Reduced padding */
+            height: 50px; /* Reduced height */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 8px; /* Adjusted margin */
+            padding: 8px; /* Adjusted padding */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #7f0e81;
+            color: white;
+            border-radius: 4px;
+            padding: 6px 12px; /* Adjusted padding for hover effect */
+        }
+
+        /* Dropdown Styles */
+        .club-select-container {
+            display: block; /* Ensure visibility */
+            margin: 20px 0; /* Adjust margin */
+            width: 100%; /* Full width for mobile */
+            padding: 0 10px; /* Adjust padding */
+        }
+
+        .club-select {
+            width: 100%; /* Full width for mobile */
+            max-width: 300px; /* Maximum width */
+            padding: 6px; /* Reduced padding */
+            font-size: 14px; /* Adjusted font size */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .hamburger-menu .line {
+            width: 20px; /* Adjusted width */
+            height: 2px; /* Adjusted height */
+            background-color: #fff;
+            margin: 4px 0; /* Adjusted margin */
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        /* Active State for Hamburger Menu */
+        .hamburger-menu.active .line:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-menu.active .line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .line:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #c79bd4;
+                position: absolute;
+                top: 50px; /* Adjust based on header height */
+                left: 0;
+                padding: 10px 0;
+                box-sizing: border-box;
+                overflow: hidden; /* Prevent overflow */
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .nav-links a {
+                margin: 10px 0;
+                padding: 12px;
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Dropdown Styles for Mobile */
+            .club-select-container {
+                display: block; /* Show dropdown on mobile */
+                margin: 20px 0; /* Adjust margin */
+                width: 100%; /* Full width for mobile */
+                padding: 0 10px; /* Adjust padding */
+            }
+
+            .club-select {
+                width: 100%; /* Full width for mobile */
+                max-width: none; /* Remove max-width restriction */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                height: 60px; /* Adjusted for mobile */
+                padding: 5px 10px; /* Adjusted padding */
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+        }
+
+        /* General Container Styles */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 80px auto 20px auto; /* Added margin-top to avoid overlap */
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        /* Form Container Styles */
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="text"] {
+            width: calc(100% - 140px);
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #c79bd4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        .form-container button:hover {
+            background-color: #7f0e81;
+        }
+
+        /* Announcement Styles */
+        .announcements {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 20px;
+        }
+
+        .announcement-card {
+            display: flex;
+            flex-direction: row; /* Default to horizontal layout */
+            align-items: flex-start; /* Align items to start */
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            gap: 10px; /* Space between image and text */
+            overflow: hidden; /* Hide any overflow */
+        }
+
+        .announcement-card img.profile-pic {
+            width: 50px; /* Adjust size as needed */
+            height: 50px; /* Adjust size as needed */
+            border-radius: 50%;
+            object-fit: cover; /* Ensure image covers area */
+        }
+
+        .announcement-card div {
+            flex: 1; /* Allow text to grow and take available space */
+            display: flex;
+            flex-direction: column; /* Stack text content vertically */
+        }
+
+        .announcement-card p {
+            margin: 0 0 10px; /* Margin below paragraphs */
+            word-wrap: break-word; /* Break long words */
+        }
+
+        /* Responsive Styles for Mobile */
+        @media (max-width: 768px) {
+            .announcement-card {
+                flex-direction: column; /* Stack content vertically */
+                padding: 15px; /* Adjust padding for mobile */
+            }
+
+            .announcement-card img.profile-pic {
+                width: 40px; /* Smaller profile pic */
+                height: 40px; /* Smaller profile pic */
+                margin-bottom: 10px; /* Space between image and text */
+            }
+
+            .announcement-card div {
+                text-align: left; /* Align text to the left */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                height: 60px; /* Adjusted for mobile */
+                padding: 5px 10px; /* Adjusted padding */
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+        }
+    </style>
+        <script>
+            // Redirect to homepage if screen width is 768px or less
+            if (window.innerWidth <= 768) {
+                //redierct to mobile page with the club
+                window.location.href = "/announcementsmobile.html/{{ current_club_id }}";
+            }
+        </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            {% if club %}
+                <h1>{{ club['name'] }}</h1>
+            {% else %}
+                <h1>Club not found</h1>
+            {% endif %}
+        </div>
+        <div class="announcements">
+            {% if announcements %}
+                {% for announcement in announcements|reverse %}
+                    <div class="announcement-card">
+                        <!-- Profile Picture of the Announcer -->
+                        <img src="{{ announcement['user_pfp'] }}" alt="Profile Picture" class="profile-pic">
+                        <div>
+                            <p><strong>{{ announcement['user_name'] }}</strong></p>
+                            <p class="timestamp">{{ announcement['created_at'] }}</p>
+                            <p>{{ announcement['announcement'] }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No announcements available.</p>
+            {% endif %}
+        </div>           
+    </div>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.hamburger-menu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

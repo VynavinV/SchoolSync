@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    
+    <!-- Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesindexmobile.css') }}">
+    <script>
+        // Redirect to homepage if screen width is 768px or wider
+        if (window.innerWidth >= 768) {
+            window.location.href = "/";
+        }
+    </script>
+
+    <style>
+        /* Ensure swiper container is not overflowing */
+        .swiper-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Hamburger menu styles */
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -80%;
+            width: 60%; /* Reduced width */
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px; /* Move links to the top */
+            transition: right 0.3s ease;
+            z-index: 1000; /* Ensure the menu is above other elements */
+        }
+
+        .nav-links.active {
+            right: 0;
+            background: linear-gradient(180deg, rgb(191, 168, 255) 0.2%, rgb(255, 255, 255) 50%);
+        }
+
+        .nav-links a {
+            margin: 8px 0;
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 80%;
+            text-align: left;
+            background-color: #ededed13;
+            padding: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #e9e9e9;
+        }
+
+        .menu-icon.active {
+            color: #fff;
+        }
+
+        /* Event card styles */
+        .event-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Remind Me button with calendar icon */
+        .remind-me {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #00000081;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            z-index:2; /* Ensure it is above the card content */
+
+        }
+
+        .remind-me i {
+            font-size: 16px;
+        }
+
+        .remind-me:hover {
+            background-color: #5252528e;
+        }
+
+        .event-info {
+            padding: 10px;
+            text-align: left;
+            justify-content: space-between;
+        }
+
+        .event-info h3 {
+            font-size: 20px;
+            margin: 6px 0;
+        }
+
+        .event-info button {
+            background-color: #7c0074;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .event-info button:hover {
+            background-color: #7c0074;
+        }
+
+    /* Search Bar */
+    .search-bar {
+        padding: 10px;
+        width: 100%;
+        margin-right: 5%;
+        position: relative; /* Add relative positioning */
+    }
+
+    .search-bar input {
+        width: 90%; /* Adjust width to 100% */
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 9px;
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+
+    .search-bar button {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #72218b;
+        color: white;   
+        cursor: pointer;
+        position: absolute; /* Position absolutely within the container */
+        right: 30px; /* Adjust position to fit inside the input */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Center vertically */
+    }
+        .club-card button {
+        background-color: #c79bd4;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Smooth transition for button background color */
+        margin-bottom: 0px;
+
+        } 
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
+            z-index: 1; /* Ensure it is above the card content */
+            pointer-events: none; /* Make the overlay uninteractable */
+        }
+        .event-card {
+            position: relative;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<div id="notification" style="display:none;"></div>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="profile">
+                <img src="{{ user_pfp }}" alt="Profile Picture">
+                <div class="welcome">
+                    <p>Welcome, 👋</p>
+                    <p>{{ user_name }}</p>
+                </div>
+            </div>
+
+            <div class="menu">
+                <span class="menu-icon">☰</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="/"><i class="fa fa-fw fa-home"></i>  Home</a>
+                <a href="/myclubs"><i class="fas fa-users"></i>  My Clubs</a>
+                <a href="/Events.html" class="events"><i class="fas fa-globe"></i><span>  Events</span></a>
+                <a href="#" onclick="goToanncClub()"><i class="fas fa-bullhorn"></i>  Announcements</a>
+                <a href="/calendar"><i class="fas fa-calendar"></i>  Calendar</a>
+                <a href="/Clubsmobile.html"><i class="fas fa-search"></i>  View Clubs</a>
+                <a href="/guidance"><i class="fas fa-school"></i>  Student Services</a>
+                <a href="{{ url_for('logout') }}" class="logout-button"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <form onsubmit="return redirectToSearch()">
+                <input type="text" id="search-input" placeholder="Search for clubs...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <script>
+            function redirectToSearch() {
+                var query = document.getElementById('search-input').value;
+                if (query) {
+                    window.location.href = '/Search/' + encodeURIComponent(query);
+                }
+                return false; // Prevent form submission
+            }
+        </script>
+
+        <!-- Upcoming Events Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <a href="/Events.html">See all</a>
+            </div>
+
+            <!-- Swiper Carousel -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    
+                    <!-- Loop through events -->
+                    {% for event in events %}
+                    <div class="swiper-slide">
+                        <div class="event-card">
+                            <img src="{{ url_for('static', filename=event['image_url']) }}" alt="{{ event['name'] }}">
+                            <div class="overlay"></div>
+
+
+                            <!-- Remind Me Button with Calendar Icon -->
+                            <button class="remind-me" onclick="setReminder({{ event['id'] }})">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+
+                            <div class="event-info">
+                                <h3>{{ event['name'] }}</h3>
+                                <a href="{{ url_for('event_details', event_id=event['id']) }}">
+                                    <button>Learn More</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Swiper Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <!-- Featured Clubs Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>Featured Clubs</h2>
+                <a href="/Clubsmobile.html">Explore all</a>
+            </div>
+
+            <!-- Swiper Container for Featured Clubs -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Loop through the random clubs -->
+                    {% for club in clubs %}
+                    {% if club['name'] != 'Morning announcements' %}
+                    <div class="swiper-slide">
+                        <div class="club-card">
+                            <img src="{{ url_for('static', filename=club['image_url']) }}" alt="{{ club['name'] }}">
+                    
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+                                <p style="margin: 0; padding-right: 10px;">{{ club['name'] }}</p>
+                                <form action="{{ url_for('register_club2') }}" method="post" onsubmit="return handleSubmit(event, this)" style="margin: 0; padding-left: 10px;">
+                                    <input type="hidden" name="club_id" value="{{ club['id'] }}">
+                                    {% if club['registered'] %}
+                                    <button type="submit" class="unregister">
+                                        <span class="icon">×</span> Unregister
+                                    </button>
+                                    {% else %}
+                                    <button type="submit">Register</button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                
+
+                <!-- Swiper Pagination for Featured Clubs -->
+                <div class="swiper-pagination clubs-swiper-pagination"></div>
+            </div>
+        </div>
+
+
+    </div>
+    
+    <script>
+        function handleSubmit(event, form) {
+            // Ensure event is passed and prevent default form submission
+            event.preventDefault();
+            
+            // Ensure the notification element exists
+            const notification = document.getElementById('notification');
+            if (notification) {
+                // Get the club ID from the hidden input field
+                const clubId = form.querySelector('input[name="club_id"]').value;
+                
+                // Display a pop-up notification
+                notification.textContent = `You are about to register/unregister for club ID: ${clubId}`;
+                notification.style.display = 'block';
+                
+                // Simulate form submission after showing the pop-up
+                setTimeout(() => {
+                    form.submit();
+                }, 1000);
+            } else {
+                console.error("Notification element not found.");
+            }
+            
+            return false;  // Prevent default form submission until pop-up is handled
+        }
+
+
+
+        function confirmDelete(button) {
+            // Find the form associated with the delete button
+            const form = button.closest('form');
+
+            // Confirm the delete action
+            const confirmed = confirm("Are you sure you want to delete this club?");
+            if (confirmed) {
+                // If confirmed, submit the form
+                form.submit();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const notification = urlParams.get('notification');
+
+            if (notification) {
+                let message;
+                switch (notification) {
+                    case 'admin_unreg':
+                        message = 'You cannot unregister from a club you administer.';
+                        break;
+                    case 'unregistered':
+                        message = 'Successfully unregistered from the club.';
+                        break;
+                    case 'registered':
+                        message = 'Successfully registered for the club.';
+                        break;
+                    case 'error':
+                        message = 'An error occurred. Please try again.';
+                        break;
+                    default:
+                        message = 'Notification';
+                }
+                const notificationDiv = document.getElementById('notification');
+                notificationDiv.textContent = message;
+                notificationDiv.style.display = 'block';
+                setTimeout(() => {
+                    notificationDiv.style.display = 'none';
+                }, 5000);  // Hide notification after 5 seconds
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+    // Function to dynamically adjust font size based on text length
+    function adjustTextSizes() {
+        document.querySelectorAll('.club-header h2').forEach(header => {
+            if (header.textContent.length > 12) {
+                header.classList.add('small');
+            }
+        });
+
+        document.querySelectorAll('.club-info p').forEach(paragraph => {
+            if (paragraph.textContent.length > 32) {
+                paragraph.classList.add('small');
+            }
+        });
+    }
+
+    // Call the function to adjust text sizes
+    adjustTextSizes();
+
+    // Existing script functions
+    function toggleMenu() {
+        const menu = document.querySelector('.nav-links');
+        menu.classList.toggle('active');
+        const hamburger = document.querySelector('.hamburger-menu');
+        hamburger.classList.toggle('active');
+    }
+
+    function init() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMenu);
+        }
+
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(event) {
+                handleSubmit(form);
+            });
+        });
+    }
+
+    init();
+});
+
+    </script>
+
+    <!-- Swiper's JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper with autoplay and pagination spacing -->
+    <script>
+        
+        function goToManageClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/manageClub/1';
+        }
+
+        function goToanncClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/club/1';
+        }
+
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            autoplay: {
+                delay: 5000,  // 5-second delay between slides
+                disableOnInteraction: false,  // Autoplay even after user interacts with it
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+            }
+        });
+
+        // Hamburger menu functionality
+        document.querySelector('.menu-icon').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.menu-icon').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.querySelector('.nav-links');
+            const menuIcon = document.querySelector('.menu-icon');
+            if (!navLinks.contains(event.target) && !menuIcon.contains(event.target)) {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('active');
+            }
+        });
+
+        // Reminder function
+        function setReminder(eventId) {
+            alert("Reminder set for event ID: " + eventId);
+            // You can add your logic here to handle the reminder
+        }
+    </script>
+</body>
+</html>

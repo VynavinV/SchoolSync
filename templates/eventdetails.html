@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event['name'] }} - Event Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesevents.css') }}">
+    <style>
+        /* Custom styles for the smaller card */
+        .event-details {
+            max-width: 400px; /* Limit the width of the card */
+            margin: 30px auto; /* Center the card and add space from the top */
+            padding: 20px; /* Add some padding inside the card */
+            border: 1px solid #ddd; /* Optional: Add a subtle border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a light shadow for depth */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        .event-details img {
+            max-width: 100%; /* Ensure the image doesn't exceed the container's width */
+            border-radius: 8px; /* Rounded image corners */
+            margin-top: 15px;
+        }
+
+        .club-info h1 {
+            font-size: 1.8em; /* Adjust the heading size */
+        }
+
+        .club-info p {
+            font-size: 1em; /* Adjust the paragraph size */
+        }
+
+        .button-container {
+            text-align: center; /* Center the back button */
+            margin-top: 20px;
+        }
+
+        .edit-event-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #c79bd4;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-event-button:hover {
+            background-color: #a675b2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/">Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+
+    <div class="club-card non-clickable-card event-details">
+        <div class="club-info">
+            <h1>{{ event['name'] }}</h1>
+            <p>{{ event['description'] }}</p>
+            <p>Created by: {{ event['created_by'] }}</p>
+            <p>Date: {{ event['event_date'] }}</p>
+            <p>Time: {{ event['event_time'] }}</p>
+            <p>Location: {{ event['event_location'] }}</p>
+        </div>
+        <img src="{{ url_for('static', filename=event['image_url']) }}" alt="{{ event['name'] }}">
+    </div>
+
+    <div class="button-container">
+        <a href="/calendar" class="edit-event-button">Back to Calendar</a>
+    </div>
+</body>
+</html>

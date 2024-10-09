@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category }} Clubs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylestechmobile.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        // Redirect to homepage if screen width is 768px or less
+        
+        if (window.innerWidth >= 768) {
+            //redierct to mobile page with the catagory
+            window.location.href = "/tech{{ category }}";
+        }
+    </script>
+    <style>
+        .club-card .delete-button {
+            background-color: rgba(255, 0, 0, 0); /* Red background color */
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center; /* Center text */
+            margin-left: 10px; /* Space from club name */
+        }
+
+        .delete-button:hover {
+            background-color: rgba(255, 0, 0, 0.218); /* Darker red on hover */
+        }
+
+        .delete-button svg {
+            fill: #858585; /* Trash icon color */
+            width: 24px;
+            height: 24px;
+        }
+
+        .club-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .club-header h2 {
+            margin: 0;
+            font-size: 24px;
+            flex-grow: 1; /* Take available space */
+        }
+        .categories {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 1%;
+            padding: 0px;
+        }
+        
+        .header1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items:flex-start;
+            flex-direction: row;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #72218b;
+            margin-right: 10px;
+            margin: 20px;
+        }
+
+        .welcome {
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .welcome p:first-child {
+            font-weight: 600;
+            color: #000000;
+            font-size: 25px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #72218b;
+            margin-right: 9px;
+        }
+
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -80%; /* Hidden by default */
+            width: 60%; 
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-links.active {
+            right: 0; /* Slide in */
+            background: linear-gradient(180deg, rgb(191, 168, 255) 0.2%, rgb(255, 255, 255) 50%);
+        }
+
+        .nav-links a {
+            margin: 8px 0;
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 80%;
+            text-align: left;
+            background-color: #ededed13;
+            padding: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #e9e9e9;
+        }
+
+        .menu-icon.active {
+            color: #fff;
+        }
+    /* Search Bar */
+    .search-bar {
+        padding: 10px;
+        width: 100%;
+        margin-right: 5%;
+        position: relative; /* Add relative positioning */
+    }
+
+    .search-bar input {
+        width: 95%; /* Adjust width to 100% */
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 9px;
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+
+    .search-bar button {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #72218b;
+        color: white;   
+        cursor: pointer;
+        position: absolute; /* Position absolutely within the container */
+        right: 30px; /* Adjust position to fit inside the input */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Center vertically */
+    }
+    </style>
+</head>
+<body>
+    </div>
+
+    <div class="categories">
+
+        <div class="header1">
+            <div class="profile">
+                <img src="{{ user_pfp }}" alt="Profile Picture">
+                <div class="welcome">
+                    <p>{{category}} Clubs</p>
+                </div>
+            </div>
+
+            <div class="menu">
+                <span class="menu-icon">☰</span>
+            </div>
+
+            <div class="nav-links">
+                <a href="/"><i class="fa fa-fw fa-home"></i>  Home</a>
+                <a href="/myclubs"><i class="fas fa-users"></i>  My Clubs</a>
+                <a href="/Events.html" class="events"><i class="fas fa-globe"></i><span>  Events</span></a>
+                <a href="#" onclick="goToanncClub()"><i class="fas fa-bullhorn"></i>  Announcements</a>
+                <a href="/calendar"><i class="fas fa-calendar"></i>  Calendar</a>
+                <a href="/Clubsmobile.html"><i class="fas fa-search"></i>  View Clubs</a>
+                <a href="/guidance"><i class="fas fa-school"></i>  Student Services</a>
+                <a href="{{ url_for('logout') }}" class="logout-button"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+            </div>
+        </div>
+        <div class="search-bar">
+            <form onsubmit="return redirectToSearch()">
+                <input type="text" id="search-input" placeholder="Search for clubs...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <script>
+            function goToManageClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/manageClub/1';
+        }
+
+        function goToanncClub() {
+            // Replace 1 with the appropriate club_id you want to manage.
+            window.location.href = '/club/1';
+        }
+    </script>
+
+        <script>
+            function redirectToSearch() {
+                var query = document.getElementById('search-input').value;
+                if (query) {
+                    window.location.href = '/Search/' + encodeURIComponent(query);
+                }
+                return false; // Prevent form submission
+            }
+        </script>
+        <!-- Dynamically Rendered Cards -->
+        {% for club in tech_clubs %}
+        <div class="club-card">
+            <a href="{{ url_for('club_page', club_id=club['id']) }}">
+                <div class="club-info">
+                    <div class="club-header">
+                        <h2>{{ club['name'] }}</h2>
+                        <!-- Delete Button Form -->
+                        {% if user_role == 'admin' %}
+                        <form action="{{ url_for('delete_club') }}" method="post" class="delete-form">
+                            <input type="hidden" name="club_id" value="{{ club['id'] }}">
+                            <input type="hidden" name="category" value="{{ category }}"> <!-- Pass category to form -->
+                            <button type="button" class="delete-button" onclick="confirmDelete(this)">
+                                <svg class="trashcan" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 25 24.8" style="enable-background:new 0 0 25 24.8;" xml:space="preserve" class="icon-trashcan ct-delete">
+                                    <g class="trashcan-open">
+                                        <path d="M18.7,24.4H5.9L4.9,7h14.9L18.7,24.4z M7.6,22.6H17l0.8-13.7h-11L7.6,22.6z"></path>
+                                        <polygon points="13.6,10.3 13.1,21.2 14.9,21.2 15.4,10.3 "></polygon>
+                                        <polygon points="11.5,21.2 11,10.3 9.2,10.3 9.7,21.2 "></polygon>
+                                        <path d="M19.1,0.7l-4.7,0.9l-0.8-1.4L8.2,1.3L8,3l-4.7,1l0.2,4.7l17.3-3.5L19.1,0.7z"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </form>
+                        {% endif %}
+
+                    </div>
+                    <p>{{ club['description'] }}</p>
+                    <p>Owned by: {{ club['created_by'] }}</p>
+                    <form action="{{ url_for('register_club') }}" method="post" onsubmit="return handleSubmit(this)">
+                        <input type="hidden" name="club_id" value="{{ club['id'] }}">
+                        <input type="hidden" name="category" value="{{ category }}">
+                        {% if club['registered'] %}
+                        <button type="submit" class="unregister">
+                            <span class="icon">×</span> Unregister
+                        </button>
+                        {% else %}
+                        <button type="submit">Register</button>
+                        {% endif %}
+                    </form>
+                </div>
+                
+            </a>
+            <img src="{{ url_for('static', filename=club['image_url']) }}" alt="{{ club['name'] }}">
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Notification Area -->
+    <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #333; color: #fff; padding: 10px; border-radius: 5px; z-index: 1000;"></div>
+
+    <script>
+
+        function handleSubmit(form) {
+            // Prevent form submission to show a pop-up
+            event.preventDefault();
+            
+            // Get the club ID from the hidden input field
+            const clubId = form.querySelector('input[name="club_id"]').value;
+            
+            // Display a pop-up notification
+            const notification = document.getElementById('notification');
+            notification.textContent = `You are about to register/unregister for club ID: ${clubId}`;
+            notification.style.display = 'block';
+            
+            // Simulate form submission after showing the pop-up
+            setTimeout(() => {
+                form.submit();
+            }, 1000);
+            
+            return false;  // Prevent default form submission until pop-up is handled
+        }
+
+        function confirmDelete(button) {
+            // Find the form associated with the delete button
+            const form = button.closest('form');
+
+            // Confirm the delete action
+            const confirmed = confirm("Are you sure you want to delete this club?");
+            if (confirmed) {
+                // If confirmed, submit the form
+                form.submit();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const notification = urlParams.get('notification');
+
+            if (notification) {
+                let message;
+                switch (notification) {
+                    case 'admin_unreg':
+                        message = 'You cannot unregister from a club you administer.';
+                        break;
+                    case 'unregistered':
+                        message = 'Successfully unregistered from the club.';
+                        break;
+                    case 'registered':
+                        message = 'Successfully registered for the club.';
+                        break;
+                    case 'error':
+                        message = 'An error occurred. Please try again.';
+                        break;
+                    default:
+                        message = 'Notification';
+                }
+                const notificationDiv = document.getElementById('notification');
+                notificationDiv.textContent = message;
+                notificationDiv.style.display = 'block';
+                setTimeout(() => {
+                    notificationDiv.style.display = 'none';
+                }, 5000);  // Hide notification after 5 seconds
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+    // Function to dynamically adjust font size based on text length
+    function adjustTextSizes() {
+        document.querySelectorAll('.club-header h2').forEach(header => {
+            if (header.textContent.length > 12) {
+                header.classList.add('small');
+            }
+        });
+
+        document.querySelectorAll('.club-info p').forEach(paragraph => {
+            if (paragraph.textContent.length > 32) {
+                paragraph.classList.add('small');
+            }
+        });
+    }
+
+    // Call the function to adjust text sizes
+    adjustTextSizes();
+
+    // Existing script functions
+    function toggleMenu() {
+        const menu = document.querySelector('.nav-links');
+        menu.classList.toggle('active');
+        const hamburger = document.querySelector('.hamburger-menu');
+        hamburger.classList.toggle('active');
+    }
+
+    function handleSubmit(form) {
+        // Prevent form submission to show a pop-up
+        event.preventDefault();
+        
+        // Get the club ID from the hidden input field
+        const clubId = form.querySelector('input[name="club_id"]').value;
+        
+        // Display a pop-up notification
+        const notification = document.getElementById('notification');
+        notification.textContent = `You are about to register/unregister for club ID: ${clubId}`;
+        notification.style.display = 'block';
+        
+        // Simulate form submission after showing the pop-up
+        setTimeout(() => {
+            form.submit();
+        }, 1000);
+        
+        return false;  // Prevent default form submission until pop-up is handled
+    }
+
+    function init() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMenu);
+        }
+
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(event) {
+                handleSubmit(form);
+            });
+        });
+    }
+
+    init();
+});
+
+    </script>
+        <script>
+            // Toggle the menu
+            document.querySelector('.menu-icon').addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.toggle('active');
+                document.querySelector('.menu-icon').classList.toggle('active');
+                console.log('Menu icon clicked');
+            });
+    
+            // Close the menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const navLinks = document.querySelector('.nav-links');
+                const menuIcon = document.querySelector('.menu-icon');
+    
+                if (!navLinks.contains(event.target) && !menuIcon.contains(event.target)) {
+                    navLinks.classList.remove('active');
+                    menuIcon.classList.remove('active');
+                    console.log('Clicked outside, menu closed');
+                }
+            });
+        </script>
+</body>
+</html>

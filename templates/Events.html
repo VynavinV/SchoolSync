@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category }} Events</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesevents.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/schoolsync_logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #d9d9d9;
+            color: #333;
+            overflow-x: hidden;
+        }
+        body {
+        font-family: 'Poppins', Arial, sans-serif;
+        background-color: #f0f0f5;
+        color: #333;
+        line-height: 1.6;
+        padding: 10px;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #b974cd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        .logo a {
+            font-size: 2em;
+            color: white;
+            text-decoration: none;
+            margin: 3px;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .event-card {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .event-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            position: relative;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .remind-me-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .event-info {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .event-info h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .event-icons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .event-icons div {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .event-icons i {
+            font-size: 1.2em;
+            margin-right: 8px;
+            color: #7f0e81;
+        }
+
+        .event-card button {
+            padding: 10px 20px;
+            background-color: #7f0e81;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9em;
+            width: 100%;
+        }
+
+        .event-card button:hover {
+            background-color: #590b5d;
+        }
+
+        .event-details {
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 0 0 20px 20px;
+            font-size: 0.9em;
+            color: #333;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .event-buttons a {
+            text-decoration: none;
+        }
+
+        /* Notification Styles */
+        #notification {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        .club-card p {
+            font-size: 5em;
+            margin: 0;
+            padding: 10px;
+            text-align: left;
+        }
+        .add-events-link {
+            background-color: #7f0e81;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: none;
+            justify-content: center;
+            align-items: center;
+            justify-items: center;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            justify-items: center;
+            align-items: center;
+
+        }
+
+    </style>
+            <script>
+                // Check if the screen width is less than or equal to 768px
+                if (window.innerWidth <= 768) {
+                    window.location.href = "/Eventsmobile.html";
+                }
+            </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/"> Harold M Brathwaite S.S.</a>
+        </div>
+    </div>
+
+
+
+    <div class="categories">
+
+        <!-- Dynamically Rendered Event Cards -->
+        {% for event in events %}
+        <div class="event-card">
+            <div style="position: relative;">
+                <img src="{{ url_for('static', filename=event['image_url']) }}" alt="{{ event['name'] }}">
+                <!--<div class="remind-me-button"><i class="fas fa-bell"></i> Remind Me</div> -->
+            </div>
+            <div class="event-info">
+                <h2>{{ event['name'] }}</h2>
+                <div class="event-icons">
+                    <div><i class="fas fa-calendar-alt"></i>{{ event['event_date'] }}</div>
+                    <div><i class="fas fa-clock"></i>{{ event['event_time'] }}</div>
+                    <div><i class="fas fa-map-marker-alt"></i>{{ event['event_location'] }}</div>
+                </div>
+                <p class="event-details">{{ event['description'] }}</p>
+                {% if user_role == 'admin' %}
+                <div class="event-buttons">
+                    <!-- Edit Button -->
+                    <a href="/editEvent/{{ event['id'] }}" class="edit-event-button">
+                        <button><i class="fas fa-edit"></i> Edit</button>
+                    </a>
+
+                    <!-- Delete Button wrapped in a form for POST request -->
+                    <form method="POST" action="/deleteEvent/{{ event['id'] }}" onsubmit="return confirm('Are you sure you want to delete this event?');" style="display: inline;">
+                        <button type="submit" class="delete-event-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% if user_role == 'admin' %}
+        <!-- Add Event Button -->
+        <div class="button-container">
+            <a href="/addEvents.html" class="add-events-link"><i class="fas fa-plus"></i> Add Event</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Notification Area -->
+    <div id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const notification = urlParams.get('notification');
+            if (notification) {
+                let message;
+                switch (notification) {
+                    case 'admin_unreg':
+                        message = 'You cannot unregister from an event you administer.';
+                        break;
+                    case 'unregistered':
+                        message = 'Successfully unregistered from the event.';
+                        break;
+                    case 'registered':
+                        message = 'Successfully registered for the event.';
+                        break;
+                    case 'error':
+                        message = 'An error occurred. Please try again.';
+                        break;
+                    default:
+                        message = 'Notification';
+                }
+                const notificationDiv = document.getElementById('notification');
+                notificationDiv.textContent = message;
+                notificationDiv.style.display = 'block';
+                setTimeout(() => {
+                    notificationDiv.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+
+</body>
+</html>
